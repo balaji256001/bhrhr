@@ -1,0 +1,52 @@
+{
+    "name": "mhoofman/wordpress-heroku",
+    "description": "A template for deploying WordPress on Heroku",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^7.4|^8.0",
+        "johnpbloch/wordpress": "^5.8",
+        "vlucas/phpdotenv": "^5.3",
+        "wpackagist-plugin/sendgrid-email-delivery-simplified": "^1.11"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "wp-coding-standards/wpcs": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mhoofman\\WordPressHeroku\\": "src/"
+        }
+    },
+    "extra": {
+        "wordpress-install-dir": "public/wp",
+        "installer-paths": {
+            "public/wp-content/plugins/{$name}": ["type:wordpress-plugin"],
+            "public/wp-content/themes/{$name}": ["type:wordpress-theme"]
+        }
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-install-cmd": [
+            "Mhoofman\\WordPressHeroku\\ScriptHandler::createRequiredFiles"
+        ],
+        "post-update-cmd": [
+            "Mhoofman\\WordPressHeroku\\ScriptHandler::createRequiredFiles"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
